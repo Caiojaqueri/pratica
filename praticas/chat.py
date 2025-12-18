@@ -19,3 +19,10 @@ while True: ##loop infinito
     texto = input("mensagem: ")
     if texto =="fim": # se o texto for igual a "fim"
         break # sai do loop
+
+    #adicionando mensagem na lista
+    mensagens.append({
+        "nome": nome,
+        "texto": texto
+    })
+    
