@@ -1,2 +1,2 @@
 # pratica
-prática em python, banco de dados sql, 
+prática em python para me preparar para uma entrevista
