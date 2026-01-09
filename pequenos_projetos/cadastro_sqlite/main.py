@@ -18,5 +18,6 @@ engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
 # criar sessão do banco de dados
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-#
+# criar base declarativa
 Base = declarative_base()
+
