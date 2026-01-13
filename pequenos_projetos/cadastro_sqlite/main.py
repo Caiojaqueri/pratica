@@ -65,3 +65,29 @@ def criar_usuario(usuarios: UsuarioCreate, db: Session = Depends(get_dp)):
     existe = db.query(Usuario).filter(Usuario.email == usuarios.email).first()
     if existe:
         raise HTTPException(status_code=400, detail="Email já cadastrado")
+
+    novo_usuario = Usuario(nome=usuario.nome, email=usuario.email)
+    db.add(novo_usuario)
+    db.commit()
+    db.refresh(novo_usuario)
+    return novo_usuario
+
+@app.get("/usuarios", response_model=List[UsuarioResponse])
+def listar_usuarios(db: Session = Depends(get_db)):
+    return db.query(Usuario).all()
+
+@app.get("/usuarios/{usuario_id}", response_model=UsuarioResponse)
+def buscar_usuario(usuario_id: int, db: Session = Depends(get_db)):
+    usuario = db.query(Usuario).filter(Usuario.id == usuario_id).first()
+    if not usuario:
+        raise HTTPException(status_code=404, detail="Usuário não encontrado")
+    return usuario
+
+@app.delete("/usuarios/{usuario_id}")
+def deletar_usuario(usuario_id: int, db: Session = Depends(get_db)):
+    usuario = db.query(Usuario).filter(Usuario.id == usuario_id).first()
+    if not usuario:
+        raise HTTPException(status_code=404, detail="Usuário não encontrado")
+    db.delete(usuario)
+    db.commit()
+    return {"detail": "Usuário deletado com sucesso"}
